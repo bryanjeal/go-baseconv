@@ -14,34 +14,42 @@
 
 package baseconv
 
-type baseNAEncoding struct {
+// BaseNAEncoding holds the encoding and decoding tables
+type BaseNAEncoding struct {
 	encode    [47]byte
 	decodeMap [256]uint64
 }
 
-// BaseNoAmbiguous namespaces the baseNA encoder
-var BaseNoAmbiguous = &baseNAEncoding{
-	[47]byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n',
-		'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'C',
-		'E', 'F', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'T', 'U', 'V', 'W',
-		'X', 'Y', '3', '4', '7', '9'},
+// BaseNoAmbiguous is a global baseNA encoder
+var BaseNoAmbiguous = NewBaseNoAmbiguousEncoder()
 
-	[256]uint64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 43, 44, 0, 0, 45, 0, 46, 0, 0, 0, 0, 0, 0, 0, 25, 0,
-		26, 0, 27, 28, 0, 29, 0, 30, 31, 32, 33, 34, 0, 35, 0, 36, 0, 37, 38,
-		39, 40, 41, 42, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-		0, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0},
+// NewBaseNoAmbiguousEncoder returns a new Base No Ambiguous Encoder
+func NewBaseNoAmbiguousEncoder() *BaseNAEncoding {
+	e := &BaseNAEncoding{
+		[47]byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n',
+			'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'C',
+			'E', 'F', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'T', 'U', 'V', 'W',
+			'X', 'Y', '3', '4', '7', '9'},
+
+		[256]uint64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 43, 44, 0, 0, 45, 0, 46, 0, 0, 0, 0, 0, 0, 0, 25, 0,
+			26, 0, 27, 28, 0, 29, 0, 30, 31, 32, 33, 34, 0, 35, 0, 36, 0, 37, 38,
+			39, 40, 41, 42, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+			0, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0},
+	}
+
+	return e
 }
 
 // Decode takes a number that is encoded in baseNA and returns it as an uint64
-func (e *baseNAEncoding) Decode(buf []byte) uint64 {
+func (e *BaseNAEncoding) Decode(buf []byte) uint64 {
 	sum := uint64(0)
 
 	for i := 0; i < len(buf); i++ {
@@ -53,7 +61,7 @@ func (e *baseNAEncoding) Decode(buf []byte) uint64 {
 }
 
 // Encode takes an uint64 and returns it encoded as a baseNA []byte
-func (e *baseNAEncoding) Encode(n uint64) []byte {
+func (e *BaseNAEncoding) Encode(n uint64) []byte {
 	if n == 0 {
 		return []byte{e.encode[0]}
 	}

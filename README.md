@@ -1,5 +1,8 @@
 # go-baseconv
 
+[![GoDoc](https://godoc.org/github.com/bryanjeal/go-baseconv?status.svg)](https://godoc.org/github.com/bryanjeal/go-baseconv)
+[![Go Report Card](https://goreportcard.com/badge/github.com/bryanjeal/go-baseconv)](https://goreportcard.com/report/github.com/bryanjeal/go-baseconv)
+
 Convert uint64 into Base62 or BaseNoAmbiguous
 
 ## Base62
